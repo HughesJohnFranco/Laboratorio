@@ -4,5 +4,4 @@ import cv2
 FONT = cv2.FONT_HERSHEY_PLAIN
 FONT_SIZE = 1.5
 FONT_POS = (5, 30)
-#dgfdsfdfdafadsa
-#a ver si anda
+
