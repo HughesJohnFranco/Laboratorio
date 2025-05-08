@@ -6,6 +6,8 @@ import cv2
 from zhelpers import mediapipe_detection, extract_keypoints
 from tqdm import tqdm #barra de progesssssshjjhjhjhjhjh ho
 
+# probando johngit
+
 def create_dataset_h5(base_path, output_path="dataset.h5"):
     data = []
     labels =[]
