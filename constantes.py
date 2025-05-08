@@ -1,7 +1,6 @@
 import cv2
 
-# Parámetros visuales para los textos
-FONT = cv2.FONT_HERSHEY_PLAIN
-FONT_SIZE = 1.5
-FONT_POS = (5, 30)
-
+# Parámetros visuales para mostrar textos en pantalla
+FUENTE = cv2.FONT_HERSHEY_PLAIN
+TAMAÑO_TEXTO = 1.5
+POSICION_TEXTO = (5, 30)

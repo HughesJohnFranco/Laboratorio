@@ -3,50 +3,50 @@ import numpy as np
 import pandas as pd
 from mediapipe.python.solutions.holistic import Holistic
 import cv2
-from zhelpers import mediapipe_detection, extract_keypoints
-from tqdm import tqdm #barra de progesssssshjjhjhjhjhjh ho
+from Auxiliares import deteccion_mediapipe, extraer_keypoints
+from tqdm import tqdm  # barra de progreso
 
-def create_dataset_h5(base_path, output_path="dataset.h5"):
-    data = []
-    labels =[]
-    labels_map= {}
+def crear_h5(ruta_base, salida="dataset.h5"):
+    datos = []
+    etiquetas = []
+    mapa_etiquetas = {}
 
-    with Holistic(static_image_mode=True) as model:
-        palabras = os.listdir(base_path)
-        for idx, palabra in enumerate(palabras):
-            palabra_path = os.path.join(base_path, palabra)
-            if not os.path.isdir(palabra_path):
+    with Holistic(static_image_mode=True) as modelo:
+        palabras = os.listdir(ruta_base)
+        for indice, palabra in enumerate(palabras):
+            ruta_palabra = os.path.join(ruta_base, palabra)
+            if not os.path.isdir(ruta_palabra):
                 continue
-            labels_map[idx] = palabra
-            muestra = os.listdir(palabra_path)
 
-            for muestra in tqdm(muestra, desc=f"Procesando {palabra}"):
-                muestra_path = os.path.join(palabra_path, muestra)
-                frames = sorted(os.listdir(muestra_path))
+            mapa_etiquetas[indice] = palabra
+            muestras = os.listdir(ruta_palabra)
+
+            for muestra in tqdm(muestras, desc=f"Procesando {palabra}"):
+                ruta_muestra = os.path.join(ruta_palabra, muestra)
+                fotogramas = sorted(os.listdir(ruta_muestra))
                 secuencia = []
 
-                for frame_name in frames:
-                    frame_path = os.path.join(muestra_path, frame_name)
-                    frame = cv2.imread(frame_path)
-                    if frame is None:
+                for nombre_frame in fotogramas:
+                    ruta_fotograma = os.path.join(ruta_muestra, nombre_frame)
+                    imagen = cv2.imread(ruta_fotograma)
+                    if imagen is None:
+                        print(f"No se pudo leer la imagen: {ruta_fotograma}")
                         continue
 
-                    results = mediapipe_detection(frame, model)
-                    keypoints = extract_keypoints(results)
-                    print(f"Frame procesado: {frame_name}, Keypoints extraidos: {len(keypoints)}")
-                    secuencia.append(keypoints)
-                    if frame is None:
-                        print(f"No se pudo leer la imagen: {frame_path}")
+                    resultado = deteccion_mediapipe(imagen, modelo)
+                    puntos_clave = extraer_keypoints(resultado)
+                    print(f"Fotograma procesado: {nombre_frame}, Puntos clave extraídos: {len(puntos_clave)}")
+                    secuencia.append(puntos_clave)
 
                 if len(secuencia) > 0:
-                    data.append(secuencia)
-                    labels.append(idx)
+                    datos.append(secuencia)
+                    etiquetas.append(indice)
 
-    df = pd.DataFrame({'keypoints': data, 'label': labels})
-    df.to_hdf(output_path, key='data', mode='w')
-    print(f"Data set guardado en {output_path}")
-    print(f"Etiquetas:  {labels_map}")
-    return labels_map
+    df = pd.DataFrame({'keypoints': datos, 'label': etiquetas})
+    df.to_hdf(salida, key='data', mode='w')
+    print(f"Dataset guardado en: {salida}")
+    print(f"Etiquetas asignadas: {mapa_etiquetas}")
+    return mapa_etiquetas
 
 if __name__ == "__main__":
-    create_dataset_h5("frame_actions","dataset_lenguaje.h5")
+    crear_h5("frame_actions", "dataset_lenguaje.h5")

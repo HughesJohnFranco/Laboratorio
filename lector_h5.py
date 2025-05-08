@@ -6,41 +6,46 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense, Dropout
 
-# Cargar dataset
-df = pd.read_hdf('dataset_lenguaje.h5', key='data')
+# Cargar el conjunto de datos
+datos = pd.read_hdf('dataset_lenguaje.h5', key='data')
 
-# Verificá que tenga datos
-print(df.head())
-print(df.shape)
+# Mostrar una vista previa y el tamaño del dataset
+print(datos.head())
+print(datos.shape)
 
-# Convertir columna 'keypoints' a array numpy
-X = np.array(df['keypoints'].tolist())  # Esto da (samples, timesteps, features)
-y = df['label'].values
+# Convertir la columna de puntos clave a un array de NumPy
+entradas = np.array(datos['keypoints'].tolist())  # Forma: (ejemplos, cuadros, características)
+etiquetas = datos['label'].values
 
-# Codificar las etiquetas
-le = LabelEncoder()
-y_encoded = le.fit_transform(y)
-y_onehot = tf.keras.utils.to_categorical(y_encoded)
+# Codificar etiquetas (de texto a números)
+codificador = LabelEncoder()
+etiquetas_codificadas = codificador.fit_transform(etiquetas)
+etiquetas_onehot = tf.keras.utils.to_categorical(etiquetas_codificadas)
 
-# Split
-X_train, X_val, y_train, y_val = train_test_split(X, y_onehot, test_size=0.2, random_state=42)
+# Dividir en datos de entrenamiento y validación
+x_entrenamiento, x_validacion, y_entrenamiento, y_validacion = train_test_split(
+    entradas, etiquetas_onehot, test_size=0.2, random_state=42
+)
 
-# Verificar forma final
-print("Forma de X_train:", X_train.shape)  # Debería ser (n_samples, 30, features)
+# Verificar la forma final de los datos
+print("Forma de x_entrenamiento:", x_entrenamiento.shape)
 
-# Modelo LSTM
-model = Sequential([
-    LSTM(64, return_sequences=True, activation='relu', input_shape=(X_train.shape[1], X_train.shape[2])),
+# Definir el modelo con capas LSTM
+modelo = Sequential([
+    LSTM(64, return_sequences=True, activation='relu', input_shape=(x_entrenamiento.shape[1], x_entrenamiento.shape[2])),
     Dropout(0.2),
     LSTM(64, return_sequences=False, activation='relu'),
     Dropout(0.2),
     Dense(64, activation='relu'),
-    Dense(y_onehot.shape[1], activation='softmax')
+    Dense(etiquetas_onehot.shape[1], activation='softmax')  # Capa de salida con tantas neuronas como clases
 ])
 
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-model.summary()
+# Compilar el modelo
+modelo.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+modelo.summary()
 
-model.fit(X_train, y_train, epochs=30, validation_data=(X_val, y_val), batch_size=32)
-model.save("modelo_lenguaje.keras")
+# Entrenar el modelo
+modelo.fit(x_entrenamiento, y_entrenamiento, epochs=30, validation_data=(x_validacion, y_validacion), batch_size=32)
 
+# Guardar el modelo entrenado
+modelo.save("modelo_lenguaje.keras")
