@@ -1,4 +1,4 @@
-# Este archivo es el que genera el .h5
+## este archivo es el que genera el .h5
 # con esto generamos la carpeta data donde se guardan los keypoints
 
 import mediapipe as mp
