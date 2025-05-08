@@ -5,7 +5,7 @@ from mediapipe.python.solutions.holistic import Holistic
 from funciones_aux import dibujar_keypoints, mediapipe_deteccion
 from sklearn.preprocessing import LabelEncoder
 
-# Cargar el modelo
+# Cargar el modelo previamente entrenado
 modelo = tf.keras.models.load_model('modelo_red_neuronal.keras')
 
 # Cargar el codificador de etiquetas
