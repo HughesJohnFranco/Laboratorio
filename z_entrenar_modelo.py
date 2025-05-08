@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 # Ruta de los archivos .h5 generados
-ruta_keypoints = 'C:/Users/John/Desktop/LAB_SACACHISPAS/Laboratorio/data/keypoints'
+ruta_keypoints = 'C:/Users/valen/OneDrive/Escritorio/Laboratorio/data/keypoints'
 archivos = [f for f in os.listdir(ruta_keypoints) if f.endswith('.h5')]
 
 X = []
