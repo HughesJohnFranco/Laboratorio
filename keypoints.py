@@ -1,4 +1,4 @@
-## este archivo es el que genera el .h5
+# aca generamos los .h5
 # con esto generamos la carpeta data donde se guardan los keypoints
 
 import mediapipe as mp
@@ -10,9 +10,9 @@ import os
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(static_image_mode=True)
 
-palabras = ['bien', 'hola']
-ruta_base = 'C:/Users/John/Desktop/LABORATORIO_2025/frame_acciones'
-ruta_salida = 'C:/Users/John/Desktop/LABORATORIO_2025/data/keypoints'  # Carpeta donde se guardarán los .h5
+palabras = ['bien', 'hola', 'mal', 'okey']
+ruta_base = 'C:/Users/John/Desktop/LABOTORIO_2025/frame_acciones'
+ruta_salida = 'C:/Users/John/Desktop/LABOTORIO_2025/data/keypoints' 
 
 os.makedirs(ruta_salida, exist_ok=True)
 

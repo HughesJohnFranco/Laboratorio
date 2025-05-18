@@ -19,8 +19,8 @@ def mediapipe_deteccion(image, model):
 
 
 def crear_carpeta(path):   
-    ### CREAR CARPETA SI NO EXISTE
-    ## Si ya existe, no hace nada.
+    # CREAR CARPETA SI NO EXISTE
+    # Si ya existe, no hace nada.
     if not os.path.exists(path):
         os.makedirs(path)
 
