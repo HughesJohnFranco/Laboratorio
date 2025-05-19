@@ -10,9 +10,9 @@ import os
 mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(static_image_mode=True)
 
-palabras = ['bien', 'hola', 'mal', 'okey']
-ruta_base = 'C:/Users/John/Desktop/LABOTORIO_2025/frame_acciones'
-ruta_salida = 'C:/Users/John/Desktop/LABOTORIO_2025/data/keypoints' 
+palabras = ['bien', 'hola', 'Buenas_Noches','SinGesto']
+ruta_base = 'C:\\Users\\alen_\\repos\\Laboratorio\\Laboratorio\\frame_acciones'
+ruta_salida = 'C:\\Users\\alen_\\repos\\Laboratorio\\Laboratorio\\data\\keypoints' 
 
 os.makedirs(ruta_salida, exist_ok=True)
 
@@ -38,11 +38,10 @@ for palabra in palabras:
                 if len(keypoints) == 99:
                     datos.append(keypoints)
 
-    if datos:
-        columnas = [f"{i}_{coord}" for i in range(33) for coord in ['x', 'y', 'z']]
-        df = pd.DataFrame(datos, columns=columnas)
-        archivo_salida = os.path.join(ruta_salida, f"{palabra}.h5")
-        df.to_hdf(archivo_salida, key='data', mode='w')
-        print(f"Guardado: {archivo_salida}")
-    else:
-        print(f"No se encontraron datos válidos para: {palabra}")
+
+    columnas = [f"{i}_{coord}" for i in range(33) for coord in ['x', 'y', 'z']]
+    df = pd.DataFrame(datos, columns=columnas)    
+    archivo_salida = os.path.join(ruta_salida, f"{palabra}.h5")
+    df.to_hdf(archivo_salida, key='data', mode='w')
+    print(f"Guardado: {archivo_salida}")        
+        

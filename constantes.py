@@ -1,4 +1,4 @@
-"""
+
 import os
 import cv2
 
@@ -32,8 +32,10 @@ texto_palabras = {
     "gracias": "GRACIAS",
     "de_nada": "DE NADA",
     "adios": "ADIÓS",
+    "Buenas_Noches":"buenasnoches",
+    "SinGesto": "Singesto"
 }
-"""
+
 
 # constantes.py (adaptado)
 import os
@@ -45,7 +47,7 @@ LENGTH_KEYPOINTS = 1662
 MODEL_FRAMES = 15
 
 # PATHS
-actions = ['hola', 'bien']
+actions = ['hola', 'bien', 'Buenas_Noches','SinGesto']
 RUTA_RAIZ = os.getcwd()
 FRAME_RUTA_ACCIONES = os.path.join(RUTA_RAIZ, 'frame_acciones')
 DATA_PATH = os.path.join(RUTA_RAIZ, 'data')

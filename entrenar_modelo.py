@@ -6,7 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 # Ruta de los archivos .h5 generados
-ruta_keypoints = 'C:/Users/John/Desktop/LABOTORIO_2025/data/keypoints'
+ruta_keypoints = 'C:\\Users\\alen_\\repos\\Laboratorio\\data\\keypoints'
+
 archivos = [f for f in os.listdir(ruta_keypoints) if f.endswith('.h5')]
 
 X = []
@@ -23,7 +24,7 @@ for archivo in archivos:
     
     datos = df.values  # convierte el DataFrame en un array de numpy
     X.extend(datos)    # agregamos cada fila como un vector
-    etiqueta = archivo.split('.')[0]  # 'bien', 'hola', etc.
+    etiqueta = archivo.split('.')[0]  # 'bien', 'hola', 'Buenas_noches' etc.
     y.extend([etiqueta] * len(datos))  # etiquetas para cada muestra
 
 X = np.array(X)
@@ -51,6 +52,14 @@ modelo.fit(X_entrenamiento, y_entrenamiento, epochs=50, batch_size=32, validatio
 
 # Evaluación
 loss, precision = modelo.evaluate(X_prueba, y_prueba)
+confianza_max = np.max(precision)
+indice_predicho = np.argmax(precision)
+
+if confianza_max < 0.85:
+    etiqueta_predicha = "Desconocido"
+else:
+    etiqueta_predicha = encoder.inverse_transform([indice_predicho])[0]
+
 print(f"Precisión del modelo: {precision:.2f}")
 
 # Guardar modelo en formato .keras

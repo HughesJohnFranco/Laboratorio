@@ -2,31 +2,31 @@ import cv2
 import numpy as np
 import tensorflow as tf
 import pygame
+import time
 from mediapipe.python.solutions.holistic import Holistic
 from funciones_aux import dibujar_keypoints, mediapipe_deteccion
 from sklearn.preprocessing import LabelEncoder
 
+# Inicializar sonidos
+pygame.mixer.init()
 
-pygame.mixer.init()# inicializador para lossonidos 
-
-# cargar sonidos
 sonidos = {
-    "hola": pygame.mixer.Sound("Laboratorio/audio/hola.wav"),
-    "bien": pygame.mixer.Sound("Laboratorio/audio/bien.wav"),
-    "mal": pygame.mixer.Sound("Laboratorio/audio/mal.wav"),
-    "okey": pygame.mixer.Sound("Laboratorio/audio/okey.wav")
+    "hola": pygame.mixer.Sound("C:/Users/alen_/repos/Laboratorio/Laboratorio/audio/hola.wav"),
+    "bien": pygame.mixer.Sound("C:/Users/alen_/repos/Laboratorio/Laboratorio/audio/bien.wav"),
+    "mal": pygame.mixer.Sound("C:/Users/alen_/repos/Laboratorio/Laboratorio/audio/mal.wav"),
+    "okey": pygame.mixer.Sound("C:/Users/alen_/repos/Laboratorio/Laboratorio/audio/okey.wav"),
+    "Buenas_Noches": pygame.mixer.Sound("C:/Users/alen_/repos/Laboratorio/Laboratorio/audio/buenasnoches.wav")
 }
 
-# Cargar el modelo
-modelo = tf.keras.models.load_model('modelo_red_neuronal_actualizado.keras')
+# Cargar modelo
+modelo = tf.keras.models.load_model('modelo_red_neuronal.keras')
 
-# cargar el codificador de etiquetas
-etiquetas = ["bien", "hola", "mal", "okey"]
+# Cargar etiquetas
+etiquetas = ["bien", "hola", "mal", "okey", "Buenas_Noches"]
 encoder = LabelEncoder()
 encoder.fit(etiquetas)
 
 def preprocesar_keypoints(resultados):
-    #extrae keypoints y los convierte en un array numpy adecuado para la predicción
     if resultados.pose_landmarks:
         keypoints = np.array([[kp.x, kp.y, kp.z] for kp in resultados.pose_landmarks.landmark]).flatten()
         if keypoints.shape[0] != 99:
@@ -35,7 +35,10 @@ def preprocesar_keypoints(resultados):
     return None
 
 def detector_completo():
-    ultima_etiqueta = None  # Para evitar repetir el sonido constantemente
+    ultima_etiqueta = None
+    etiqueta_repetida = False
+    tiempo_ultima_det = 1
+    delay_segundos = 3
 
     with Holistic() as holistic_model:
         video = cv2.VideoCapture(1)
@@ -53,12 +56,25 @@ def detector_completo():
                 prediccion = modelo.predict(keypoints)
                 etiqueta_predicha = encoder.inverse_transform([np.argmax(prediccion)])[0]
 
-                # Reproducir sonido si es un gesto nuevo
-                if etiqueta_predicha != ultima_etiqueta and etiqueta_predicha in sonidos:
-                    sonidos[etiqueta_predicha].play()
-                    ultima_etiqueta = etiqueta_predicha
+                tiempo_actual = time.time()
+
+                # Si cambia la seña, permitir que se reproduzca de nuevo
+                if etiqueta_predicha != ultima_etiqueta:
+                    etiqueta_repetida = False
+
+                if (not etiqueta_repetida and etiqueta_predicha in sonidos and
+                    etiqueta_predicha != "Desconocido"):
+
+                    if tiempo_actual - tiempo_ultima_det >= delay_segundos:
+                        sonidos[etiqueta_predicha].play()
+                        tiempo_ultima_det = tiempo_actual
+                        ultima_etiqueta = etiqueta_predicha
+                        etiqueta_repetida = True
 
                 print(f"Gesto detectado: {etiqueta_predicha}")
+
+            else:
+                etiqueta_predicha = "Desconocido"
 
             imagen = frame.copy()
             dibujar_keypoints(imagen, resultados)

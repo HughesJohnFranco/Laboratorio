@@ -14,7 +14,7 @@ def capture_samples(ruta, margen_frame=1, min_cant_frames=10, delay_frames=3):
     contar_frame = 0
     frames = []
     arrg_frames = 0
-    grabacion = False
+    grabacion = True
     
     with Holistic() as holistic_model:
 
@@ -61,6 +61,6 @@ def capture_samples(ruta, margen_frame=1, min_cant_frames=10, delay_frames=3):
         cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    nombre_palabra = "hola"
+    nombre_palabra = "SinGesto"
     ruta_palabra = os.path.join(RUTA_RAIZ, FRAME_RUTA_ACCIONES, nombre_palabra)
     capture_samples(ruta_palabra)
