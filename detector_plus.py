@@ -23,7 +23,7 @@ sonidos = {
 modelo = tf.keras.models.load_model('modelo_red_neuronal_actualizado.keras')
 
 # Codificador de etiquetas
-etiquetas = ["bien", "hola", "mal", "okey"]
+etiquetas = ["bien", "hola", "mal", "okey"] # nuestras etyquetas....
 encoder = LabelEncoder()
 encoder.fit(etiquetas)
 
