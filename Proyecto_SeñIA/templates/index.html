@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>INTERPRETE DE SEÑAS (LSA)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilo.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body onload="iniciarDeteccion()">
+
+    <div id="contenedor">
+        <!-- Historial a la izquierda -->
+        <aside id="panelHistorial">
+            <h2>Historial de Señas</h2>
+            <ul id="listaHistorial"></ul>
+            <button class="boton" onclick="limpiarHistorial()">Limpiar historial</button>
+        </aside>
+
+        <!-- Contenido principal a la derecha -->
+        <main id="contenidoPrincipal">
+            <h1>🖐️👨‍🦲 INTERPRETE DE SEÑ-IA (LSA) 🧔🖐️</h1>
+
+            <div class="video-wrapper">
+                                            <!-- Cliente-->
+                <img id="video-stream" src="{{ url_for('video_feed') }}" alt="Video en vivo">
+            </div>
+
+            <button class="boton" onclick="iniciarDeteccion()">🤖 Bienvenidos!</button>
+            <button class="boton" onclick="exportarPDF()">📄 Exportar a PDF</button>
+
+            <!-- Audio -->
+            <audio id="audio-presentacion" src="{{ url_for('static', filename='audio/presentacion.wav') }}"></audio>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

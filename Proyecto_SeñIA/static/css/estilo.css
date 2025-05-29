@@ -1,0 +1,90 @@
+/* Estilo general */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/unpsjb-sede-esquel.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor general con distribución horizontal */
+#contenedor {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background-color: transparent;
+}
+
+/* Panel de historial a la IZQUIERDA */
+#panelHistorial {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.4);;
+    padding: 20px;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+    min-width: 50px;
+}
+
+#panelHistorial h2 {
+    margin-top: 0;
+}
+
+#listaHistorial {
+    list-style: none;
+    padding-left: 0;
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+#listaHistorial li {
+    margin-bottom: 5px;
+    font-size: 14px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 4px;
+}
+
+/* Contenido principal a la DERECHA */
+#contenidoPrincipal {
+    flex: 3;
+    padding: 30px;
+    text-align: center;
+}
+
+/* Título */
+h1 {
+    color: #000000;
+    margin-bottom: 20px;
+}
+
+/* Video */
+.video-wrapper {
+    margin-bottom: 5px;
+}
+
+#video-stream {
+    width: 560px;
+    max-width: 100%;
+    border-radius: 12px;
+    border: 3px solid #1976d2;
+}
+
+/* Botón */
+.boton {
+    background-color: #1976d2;
+    color: white;
+    padding: 14px 28px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.boton:hover {
+    background-color: #125ea8;
+}
