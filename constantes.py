@@ -32,8 +32,7 @@ texto_palabras = {
     "gracias": "GRACIAS",
     "de_nada": "DE NADA",
     "adios": "ADIÓS",
-    "Buenas_Noches":"buenasnoches",
-    "SinGesto": "Singesto"
+    "buenasnoches":"buenasnoches"
 }
 
 
@@ -47,7 +46,7 @@ LENGTH_KEYPOINTS = 1662
 MODEL_FRAMES = 15
 
 # PATHS
-actions = ['hola', 'bien', 'Buenas_Noches','SinGesto']
+actions = ['hola', 'bien']
 RUTA_RAIZ = os.getcwd()
 FRAME_RUTA_ACCIONES = os.path.join(RUTA_RAIZ, 'frame_acciones')
 DATA_PATH = os.path.join(RUTA_RAIZ, 'data')
